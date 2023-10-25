@@ -20,35 +20,35 @@
 1. Установить [git клиент](https://git-scm.com/downloads) (если он ещё не установлен)
 в зависимости от вашей операционной системы.
 
-![1.png](pic_for_readme/1.png)
+![1.png](https://hse-labs.github.io/static/PythonPY110/pic_for_readme/1.png)
 
 Для **Windows** необходимо скачать установочный exe файл. Сайт git сам подскажет какая версия нужна или можно скачать под определённую архитектуру
 
-![2.png](pic_for_readme/2.png)
+![2.png](https://hse-labs.github.io/static/PythonPY110/pic_for_readme/2.png)
 
 Для Linux или MacOS скачивание идёт через системный терминал по соответствующим 
 командам
 
-![3.png](pic_for_readme/3.png)
+![3.png](https://hse-labs.github.io/static/PythonPY110/pic_for_readme/3.png)
 
-![4.png](pic_for_readme/4.png)
+![4.png](https://hse-labs.github.io/static/PythonPY110/pic_for_readme/4.png)
 
 
 2. Cкопируйте ссылку для клонирования репозитория 
 
-![5.png](pic_for_readme/5.png)
+![5.png](https://hse-labs.github.io/static/PythonPY110/pic_for_readme/5.png)
 
 3. Откройте окно клонирования в PyCharm. В вашем проекте PyCharm 
 (можно новом проекте, можно уже ранее используемом в курсе PY100)
 зайдите в `VCS` (Version Control System, VCS вкладка появится в случае 
 правильно установленного git клиента с 1-го шага) и далее `Get from Version Control` 
 
-![6.png](pic_for_readme/6.png)
+![6.png](https://hse-labs.github.io/static/PythonPY110/pic_for_readme/6.png)
 
 
 4. Внесите скопированную ранее ссылку в поле `URL` и нажмите кнопку `Clone` 
 
-![7.png](pic_for_readme/7.png)
+![7.png](https://hse-labs.github.io/static/PythonPY110/pic_for_readme/7.png)
 
 5. Далее появятся окна с вопросами о доверии к загружаемому репозиторию, где нужно нажать `Trust Project`.
 Следующее окно будет с выбором места, где раскрыть окно с проектом, в текущем окне, или новом. Выбор за вами.
@@ -57,7 +57,7 @@
 6. Затем `PyCharm` заметит в проекте файл `requirements.txt` со списком зависимостей 
 проекта и предложит вам загрузить зависимости в ваше окружение. Для упрощения работы согласитесь. 
 
-![8.png](pic_for_readme/8.png)
+![8.png](https://hse-labs.github.io/static/PythonPY110/pic_for_readme/8.png)
 
 через некоторое время все зависимости подгрузятся. Шаг 7 для тех у кого не получилось 
 автоматически загрузить зависимости. Если всё нормально, то переходите к шагу 8. 
@@ -69,7 +69,7 @@
 с проектом у вас должна быть активирована виртуальная среда, для этого в консоле 
 должно быть написано `(venv)` у каретки в консоле) 
 
-![9.png](pic_for_readme/9.png)
+![9.png](https://hse-labs.github.io/static/PythonPY110/pic_for_readme/9.png)
 
 Требование активированной среды гарантирует, что все зависимости установятся в данную среду.
 
@@ -77,7 +77,7 @@
 8. Загрузите ваш проект на `github`. Для этого перейдите по вкладке `Git` далее
 `GitHub` далее `Share Project on GitHub`
 
-![10.png](pic_for_readme/10.png)
+![10.png](https://hse-labs.github.io/static/PythonPY110/pic_for_readme/10.png)
 
 Если до текущего моменты вы ни разу не работали с `github` через `PyCharm`, то будет необходимо 
 связать `PyCharm` с `github`, чтобы иметь возможность вносить изменения в репозиторий
@@ -87,11 +87,11 @@
 на сайте jetbrains (разработчик PyCharm)) или `Log In with Token` (авторизация 
 через создание и использование токена доступа с сайта `github`). 
 
-![11.png](pic_for_readme/11.png)
+![11.png](https://hse-labs.github.io/static/PythonPY110/pic_for_readme/11.png)
 
 Выберем `Log In with Token` и нажмем `Generate`
 
-![12.png](pic_for_readme/12.png)
+![12.png](https://hse-labs.github.io/static/PythonPY110/pic_for_readme/12.png)
 
 PyCharm перебросит на сайт `github`, где автоматически заполнит имя токена и необходимые права,
 останется только выбрать срок действия токена, по умолчанию это 30 дней, но можно 
@@ -100,29 +100,29 @@ PyCharm перебросит на сайт `github`, где автоматиче
 
 Листаем вниз нажимаем `Generate token`
 
-![13.png](pic_for_readme/13.png)
+![13.png](https://hse-labs.github.io/static/PythonPY110/pic_for_readme/13.png)
 
 Скопируйте ваш токен (данный токен снова нельзя будет увидеть, если перезагрузить страницу,
 а вы не успели воспользоваться токеном и его забыли, то
 нужно будет снова создавать токен. Если планируете его использовать повторно, 
 то храните его в надежном месте он даёт доступ к вашему аккаунту на `github`)
 
-![14.png](pic_for_readme/14.png)
+![14.png](https://hse-labs.github.io/static/PythonPY110/pic_for_readme/14.png)
 
 Затем используйте этот токен в форме `PyCharm`, что была ранее
 
-![15.png](pic_for_readme/15.png)
+![15.png](https://hse-labs.github.io/static/PythonPY110/pic_for_readme/15.png)
 
 В `Share by` увидите, что произошла связь с аккаунтом и наконец отправляет на 
 `github` нажав `Share`.
 
-![16.png](pic_for_readme/16.png)
+![16.png](https://hse-labs.github.io/static/PythonPY110/pic_for_readme/16.png)
 
 Можете проверить, что теперь на сайте `github.com` появился репозиторий с проектом, 
 для это зайдите на `Git` далее `GitHub` далее `Open on GitHub`, откроется браузер с 
 вашим репозиторием.
 
-![17.png](pic_for_readme/17.png)
+![17.png](https://hse-labs.github.io/static/PythonPY110/pic_for_readme/17.png)
 
 
 9. После загрузки проекта, начнём подготовку к лабораторной. Вся ваша работа 
@@ -137,15 +137,15 @@ PyCharm перебросит на сайт `github`, где автоматиче
 в нашем случае это ветка `origin/lab1` (приставка origin означает, что ветка `lab1`
 находится на `github`)
 
-![18.png](pic_for_readme/18.png)
+![18.png](https://hse-labs.github.io/static/PythonPY110/pic_for_readme/18.png)
 
-![19.png](pic_for_readme/19.png)
+![19.png](https://hse-labs.github.io/static/PythonPY110/pic_for_readme/19.png)
 
 * Другой способ - это использовать панель переключения веток внизу справа в `PyCharm`.
 Для этого нажимаем на ветку `master` далее нажимаем на `origin/lab1`, где в 
 выпадающем окне выбираем `Merge 'origin/lab1' into 'master'`
 
-![20.png](pic_for_readme/20.png)
+![20.png](https://hse-labs.github.io/static/PythonPY110/pic_for_readme/20.png)
 
 
 10. После слияния появятся папки `files` и `tasks`. В папке `tasks` в соответствующей 
