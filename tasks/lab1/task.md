@@ -84,7 +84,7 @@ curl --insecure "https://api.weatherapi.com/v1/current.json?key=b4588e45fcc14bdb
 ```python
 import requests
 
-key = "b4588e45fcc14bdb89d63200232109"  # ваш ключ к API
+key = ""  # TODO подставить ваш ключ к API
 lat = "59.93"  # широта в градусах
 lon = "30.31"  # долгота в градусах
 
@@ -163,7 +163,7 @@ curl: (35) schannel: next InitializeSecurityContext failed: Unknown error (0x800
 ```python
 import requests
 
-key = "54d73608-c8dd-4c98-b18f-d9a5056525ab"  # TODO подставьте значение вашего ключа доступа к API
+key = ""  # TODO подставьте значение вашего ключа доступа к API
 lat = "59.93"  # широта в градусах
 lon = "30.31"  # долгота в градусах
 
