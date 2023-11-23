@@ -332,7 +332,7 @@ static и templates), поэтому в данном случае можно р�
 ![img_23.png](pic_for_task/img_23.png)
 
 А уже в `shop.html` в теге `{{% url %}}` пропишем пространство приложения 
-`{% url 'store:product_view' product.html %}`
+`{% url 'store:products_page_view' product.html %}`
 
 ![img_24.png](pic_for_task/img_24.png)
 
