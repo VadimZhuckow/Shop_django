@@ -175,6 +175,9 @@ path('product/<slug:page>.html', products_page_view),
 
 ![3.png](pic_for_task/3.png)
 
+Если вдруг страница не отобразилась с CSS стилями и картинками, то не переживайте, далее это всё поправится и вызвано это тем, как 
+подгружаются файлы из директорий. Это всё будет поправлено, когда будут созданы шаблоны.
+
 Из реальных примеров типа `slug` может быть большинство интернет площадок с товарами, допустим на примере Ozon.
 По данной ссылке откроется книга по Python, но нам важен не результат, что ссылка открылась, как сама ссылка
 
@@ -205,13 +208,13 @@ path('product/<int:page>', products_page_view),
 def products_page_view(request, page):
     if request.method == "GET":
         if isinstance(page, str):
-            # То, что было ранее для обработки типа slug
+            # TODO Вставьте сюда тот код, что был ранее для обработки типа slug в products_page_view
         elif isinstance(page, int):
             data = DATABASE.get(str(page))  # Получаем какой странице соответствует данный id
             if data:  # Если по данному page было найдено значение 
-                # 1. Откройте файл open(f'store/products/{data["html"]}.html', encoding="utf-8") (Не забываем про контекстный менеджер with)
-                # 2. Прочитайте его содержимое
-                # 3. Верните HttpResponse c содержимым html файла
+                # TODO 1. Откройте файл open(f'store/products/{data["html"]}.html', encoding="utf-8") (Не забываем про контекстный менеджер with)
+                # TODO 2. Прочитайте его содержимое
+                # TODO 3. Верните HttpResponse c содержимым html файла
 
         return HttpResponse(status=404)
 ```
@@ -236,14 +239,14 @@ def products_page_view(request, page):
 для проверки правильности работы.
 
 ```python
-def filtering_category(database: dict,
-                       category_key: [int, str],
+def filtering_category(database: dict[str, dict],
+                       category_key: [None, str] = None,
                        ordering_key: [None, str] = None,
                        reverse: bool = False):
     """
     Функция фильтрации данных по параметрам
 
-    :param database: База данных.
+    :param database: База данных. (словарь словарей. При проверке в качестве database будет передаваться словарь DATABASE из models.py)
     :param category_key: [Опционально] Ключ для группировки категории. Если нет ключа, то рассматриваются все товары.
     :param ordering_key: [Опционально] Ключ по которому будет произведена сортировка результата.
     :param reverse: [Опционально] Выбор направления сортировки:
@@ -253,12 +256,18 @@ def filtering_category(database: dict,
     то возвращается пустой список
     """
     if category_key is not None:
-        result = ...  #  TODO При помощи фильтрации в list comprehension профильтруйте товары по категории. Или можете использовать
-        # обычный цикл или функцию filter
+        result = ...  #  TODO При помощи фильтрации в list comprehension профильтруйте товары по категории (ключ 'category') в продукте database. Или можете использовать
+        # обычный цикл или функцию filter. Допустим фильтрацию в list comprehension можно сделать по следующему шаблону
+        # [product for product in database.values() if ...] подумать, что за фильтрующее условие можно применить. 
+        # Сравните значение категории продукта со значением category_key
     else:
-        result = ... #  TODO Трансформируйте database в список словарей
+        result = ... #  TODO Трансформируйте словарь словарей database в список словарей
+        # В итоге должен быть [dict, dict, dict, ...], где dict - словарь продукта из database
     if ordering_key is not None:
         ... #  TODO Проведите сортировку result по ordering_key и параметру reverse
+        # Так как result будет списком, то можно применить метод sort, но нужно определиться с тем по какому элементу сортируем и в каком направлении
+        # result.sort(key=lambda ..., reverse=reverse)
+        # Вспомните как можно сортировать по значениям словаря при помощи lambda функции
     return result
 
 
@@ -293,8 +302,14 @@ if __name__ == "__main__":
 прописать значения в переменной `data` в ветке `if category_key := request.GET.get("category"):`. 
 Ветку `if id_product := request.GET.get("id"):` вы уже реализовывали ранее.
 
+Внимательно проверьте правильно ли вы работаете с условиями. Так как в обработчике `products_view` сначала проверяется
+есть ли параметр `id` в адресной строке, а только затем (если `id` нет в адресной строке среди переданных 
+пользователем параметров) вы проверяете параметры category, ordering и reverse. Обратите внимание, чтобы 
+`HttpResponseNotFound("Данного продукта нет в базе данных")` написанный вами ранее корректно отрабатывался.
 
 ```python
+from logic.services import filtering_category
+
 def products_view(request):
     if request.method == "GET":
         # Обработка id из параметров запроса (уже было реализовано ранее)
@@ -307,12 +322,12 @@ def products_view(request):
         # Обработка фильтрации из параметров запроса
         category_key = request.GET.get("category")  # Считали 'category' 
         if ordering_key := request.GET.get("ordering"): # Если в параметрах есть 'ordering'
-            if request.GET.get("reverse") in ('true', 'True'): # Если в параметрах есть 'ordering' и 'reverse'=True
-                data = ... #  TODO Провести фильтрацию с параметрами
-            else:
-                data = ... #  TODO Провести фильтрацию с параметрами
+            if request.GET.get("reverse").lower() == 'true': # Если в параметрах есть 'ordering' и 'reverse'=True
+                data = ... #  TODO Использовать filtering_category и провести фильтрацию с параметрами category, ordering, reverse=True  
+            else:  # Если не обнаружили в адресно строке ...&reverse=true , значит reverse=False
+                data = ... #  TODO Использовать filtering_category и провести фильтрацию с параметрами category, ordering, reverse=False
         else:
-            data = ... #  TODO Провести фильтрацию с параметрами
+            data = ... #  TODO Использовать filtering_category и провести фильтрацию с параметрами category
         # В этот раз добавляем параметр safe=False, для корректного отображения списка в JSON
         return JsonResponse(data, safe=False, json_dumps_params={'ensure_ascii': False,
                                                                  'indent': 4})
@@ -362,7 +377,7 @@ from store.models import DATABASE
 
 # def filtering_category(...)  Ваша реализация filtering_category 
 
-def view_in_cart() -> dict:
+def view_in_cart() -> dict:  # Уже реализовано, не нужно здесь ничего писать
     """
     Просматривает содержимое cart.json
 
@@ -390,13 +405,18 @@ def add_to_cart(id_product: str) -> bool:
     """
     cart = ...  # TODO Помните, что у вас есть уже реализация просмотра корзины,
     # поэтому, чтобы загрузить данные из корзины, не нужно заново писать код.
-
-    # TODO Проверьте, а существует ли такой товар в корзине, если нет, то перед тем как его добавить - проверьте есть ли такой
-    # id товара в вашей базе данных DATABASE, чтобы уберечь себя от добавления несуществующего товара.
+    
+    # ! Обратите внимание, что в переменной cart находится словарь с ключом products.
+    # ! Именно в cart["products"] лежит словарь гдк по id продуктов можно получить число продуктов в корзине.
+    # ! Т.е. чтобы обратиться к продукту с id_product = "1" в переменной cart нужно вызвать
+    # ! cart["products"][id_product]
+    # ! Далее уже сами решайте как и в какой последовательности дальше действовать. 
+    
+    # TODO Проверьте, а существует ли такой товар в корзине, если нет, то перед тем как его добавить - проверьте есть ли такой id_product товара в вашей базе данных DATABASE, чтобы уберечь себя от добавления несуществующего товара.
 
     # TODO Если товар существует, то увеличиваем его количество на 1
 
-    # TODO Не забываем записать обновленные данные cart в 'cart.json'
+    # TODO Не забываем записать обновленные данные cart в 'cart.json'. Так как именно из этого файла мы считываем данные и если мы не запишем изменения, то считать измененные данные не получится.
 
     return True
 
@@ -412,7 +432,9 @@ def remove_from_cart(id_product: str) -> bool:
     """
     cart = ...  # TODO Помните, что у вас есть уже реализация просмотра корзины,
     # поэтому, чтобы загрузить данные из корзины, не нужно заново писать код.
-
+    
+    # С переменной cart функции remove_from_cart ситуация аналогичная, что с cart функции add_to_cart
+    
     # TODO Проверьте, а существует ли такой товар в корзине, если нет, то возвращаем False.
 
     # TODO Если существует товар, то удаляем ключ 'id_product' у cart['products'].
@@ -466,7 +488,7 @@ def cart_view(request):
 
 def cart_add_view(request, id_product):
     if request.method == "GET":
-        result = ... # TODO Вызвать ответственную за это действие функцию
+        result = ... # TODO Вызвать ответственную за это действие функцию и передать необходимые параметры
         if result:
             return JsonResponse({"answer": "Продукт успешно добавлен в корзину"},
                                 json_dumps_params={'ensure_ascii': False})
@@ -478,7 +500,7 @@ def cart_add_view(request, id_product):
 
 def cart_del_view(request, id_product):
     if request.method == "GET":
-        result = ... # TODO Вызвать ответственную за это действие функцию
+        result = ... # TODO Вызвать ответственную за это действие функцию и передать необходимые параметры
         if result:
             return JsonResponse({"answer": "Продукт успешно удалён из корзины"},
                                 json_dumps_params={'ensure_ascii': False})
