@@ -20,8 +20,7 @@ def current_weather(lat, lon):
             'Температура': response["fact"]["temp"],
             'Ощущается как': response['fact']['feels_like'],
             'Давление': response['fact']['pressure_mm'],
-            'Влажность': response['fact']['humidity'],  # TODO Реализовать вычисление влажности из данных полученных от API
-            # 'wind_speed': 'реализация',  # TODO Реализовать вычисление скорости ветра из данных полученных от API
+            'Влажность': response['fact']['humidity'],
             'Скорость ветра': response['fact']['wind_speed'],
             'Направление ветра': response['fact']['wind_dir'],
         }
