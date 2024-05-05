@@ -24,13 +24,7 @@ def current_weather(lat, lon):
             'Скорость ветра': response['fact']['wind_speed'],
             'Направление ветра': response['fact']['wind_dir'],
         }
-    # print(response["geo_object"]["locality"]["name"])
-    # print(res_)
     return result
-    # for key, value in result.items():
-    #
-    #     print(f'{key} : {value}')
-
 
 if __name__ == "__main__":
     print(current_weather(59.93, 30.31))
