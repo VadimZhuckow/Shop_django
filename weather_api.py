@@ -18,12 +18,12 @@ def current_weather(lat, lon):
             'Город': response["geo_object"]["locality"]["name"],
             'Время': datetime.fromtimestamp(response["now"]).strftime("%H:%M"),
             'Температура': response["fact"]["temp"],
-            'Ощущается как': response['fact']['feels_like'],  # TODO Реализовать вычисление ощущаемой температуры из данных полученных от API
-            'Давление': response['fact']['pressure_mm'],  # TODO Реализовать вычисление давления из данных полученных от API
+            'Ощущается как': response['fact']['feels_like'],
+            'Давление': response['fact']['pressure_mm'],
             'Влажность': response['fact']['humidity'],  # TODO Реализовать вычисление влажности из данных полученных от API
             # 'wind_speed': 'реализация',  # TODO Реализовать вычисление скорости ветра из данных полученных от API
-            'Скорость ветра': response['fact']['wind_speed'],  # TODO Реализовать вычисление скорости порывов ветка из данных полученных от API
-            'Направление ветра': response['fact']['wind_dir'],  # Если используете Тариф «Погода на вашем сайте», то закомментируйте эту строку
+            'Скорость ветра': response['fact']['wind_speed'],
+            'Направление ветра': response['fact']['wind_dir'],
         }
     # print(response["geo_object"]["locality"]["name"])
     # print(res_)
@@ -31,12 +31,6 @@ def current_weather(lat, lon):
     # for key, value in result.items():
     #
     #     print(f'{key} : {value}')
-
-
-
-
-
-
 
 
 if __name__ == "__main__":
