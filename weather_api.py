@@ -24,7 +24,11 @@ def current_weather(lat, lon):
             'Скорость ветра': response['fact']['wind_speed'],
             'Направление ветра': response['fact']['wind_dir'],
         }
+
     return result
 
 if __name__ == "__main__":
     print(current_weather(59.93, 30.31))
+
+
+# Перенести в джангу
