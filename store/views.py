@@ -1,5 +1,9 @@
 from django.shortcuts import render
+
 from django.http import HttpRequest, HttpResponse, JsonResponse, HttpResponseNotFound
+
+from django.http import HttpRequest, HttpResponse, JsonResponse
+
 
 from .models import DATABASE
 

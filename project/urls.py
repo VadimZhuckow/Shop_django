@@ -17,7 +17,11 @@ Including another URLconf
 import random
 
 from django.contrib import admin
+
 from django.urls import path, include
+
+from django.urls import path
+
 from django.http import HttpResponse, HttpRequest
 
 from weather.views import get_weather
@@ -31,10 +35,19 @@ def random_view(request: HttpRequest):
 
 
 urlpatterns = [
+
     path('', include('store.urls')),
     path('', include('weather.urls')),
     path('admin/', admin.site.urls),
     path('random/', random_view),
     path('datatime/', date),
+
+
+    path('', shop_view),
+    path('admin/', admin.site.urls),
+    path('random/', random_view),
+    path('weather/', get_weather),
+    path('datatime/', date),
+    path('product/', products_view)
 
 ]
