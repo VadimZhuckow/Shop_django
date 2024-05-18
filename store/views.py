@@ -25,7 +25,7 @@ def products_view(request: HttpRequest) -> HttpResponse:
                                     "indent": 4,
                                     "ensure_ascii": False})
         if id_cart not in DATABASE.keys():
-            return HttpResponse('Такого товара нет')
+            return HttpResponse('Такого товара нет в базе')
 
 
 def shop_view(request: HttpRequest) -> HttpResponse:
