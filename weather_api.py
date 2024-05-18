@@ -13,7 +13,7 @@ def current_weather(lat, lon):
 
     response = requests.get(url, headers=headers).json()
     res_ = json.dumps(response, indent=4)
-
+    print(response)
     result = {
             'Город': response["geo_object"]["locality"]["name"],
             'Время': datetime.fromtimestamp(response["now"]).strftime("%H:%M"),
