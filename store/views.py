@@ -21,12 +21,15 @@ def products_view(request: HttpRequest) -> HttpResponse:
         id_cart = request.GET.get('id')
         category_key = request.GET.get('category')
         ordering_key = request.GET.get('ordering')
-        if id_cart in DATABASE.keys():
-            return JsonResponse(DATABASE.get(id_cart),
-                                json_dumps_params={
-                                    "indent": 4,
-                                    "ensure_ascii": False
-                                })
+        if id_cart:
+            if id_cart in DATABASE.keys():
+                return JsonResponse(DATABASE.get(id_cart),
+                                    json_dumps_params={
+                                        "indent": 4,
+                                        "ensure_ascii": False
+                                    })
+            else:
+                return HttpResponseNotFound('Такого товара нет в базе')
         if ordering_key:
             if request.GET.get('reverse') and request.GET.get('reverse').lower() == 'true':
                 data = filtering_category(DATABASE, category_key, ordering_key, True)

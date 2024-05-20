@@ -4,7 +4,7 @@ from store.models import DATABASE
 def filtering_category(database: dict[str, dict],
                        category_key: [None, str] = None,
                        ordering_key: [None, str] = "rating",
-                       reverse: bool = True):
+                       reverse: bool = False):
     """
     Функция фильтрации данных по параметрам
 
@@ -20,9 +20,9 @@ def filtering_category(database: dict[str, dict],
     if category_key is not None:
         result = [product for product in DATABASE.values() if category_key == product['category']]
     else:
-        result = list(DATABASE.values())  # TODO Трансформируйте словарь словарей database в список словарей
+        result = list(DATABASE.values())
     if ordering_key is not None:
-        result.sort(key=lambda x: x[ordering_key], reverse=reverse)  # TODO Проведите сортировку result по ordering_key и параметру reverse
+        result.sort(key=lambda x: x[ordering_key], reverse=reverse)
     print(result)
     return result
 
@@ -47,4 +47,4 @@ if __name__ == "__main__":
          'html': 'apple'}
     ]
 
-    print(filtering_category(DATABASE) == test)  # True
+    print(filtering_category(DATABASE, 'Фрукты', 'rating', True) == test)  # True
