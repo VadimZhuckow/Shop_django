@@ -19,14 +19,12 @@ def products_view(request: HttpRequest) -> HttpResponse:
         id_cart = request.GET.get('id')
         if id_cart in DATABASE.keys():
             return JsonResponse(DATABASE.get(id_cart),
-
                                 json_dumps_params={
                                     "indent": 4,
                                     "ensure_ascii": False
                                 })
         if not id_cart:
             return JsonResponse(DATABASE,
-
                                 json_dumps_params={
                                     "indent": 4,
                                     "ensure_ascii": False})
@@ -34,14 +32,19 @@ def products_view(request: HttpRequest) -> HttpResponse:
             return HttpResponseNotFound('Такого товара нет в базе')
 
 
-def products_page_view(request: HttpRequest, page: str) -> HttpResponse:
+def products_page_view(request: HttpRequest, page: [str, int]) -> HttpResponse:
     if request.method == "GET":
-        for data in DATABASE.values():
-            if data["html"] == page:
-                with open(f"store/products/{page}.html", encoding="utf-8") as f:
+        if isinstance(page, int):
+            data = DATABASE.get(str(page))
+            if data:
+                with open(f"store/products/{data['html']}.html", encoding="utf-8") as f:
                     page = f.read()
-
                 return HttpResponse(page)
-
-
-
+        if isinstance(page, str):
+            for data in DATABASE.values():
+                if data["html"] == page:
+                    with open(f"store/products/{page}.html", encoding="utf-8") as f:
+                        page = f.read()
+                    return HttpResponse(page)
+        if page not in DATABASE.values():
+            return HttpResponseNotFound('Такого товара нет в базе')

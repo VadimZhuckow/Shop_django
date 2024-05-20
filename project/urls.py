@@ -41,13 +41,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('random/', random_view),
     path('datatime/', date),
-
-
-    path('', shop_view),
-    path('admin/', admin.site.urls),
-    path('random/', random_view),
-    path('weather/', get_weather),
-    path('datatime/', date),
-    path('product/', products_view)
-
 ]
