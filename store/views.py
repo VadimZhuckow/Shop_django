@@ -6,6 +6,8 @@ from django.http import HttpRequest, HttpResponse, JsonResponse
 
 from .models import DATABASE
 
+from logic.services import filtering_category
+
 
 def shop_view(request: HttpRequest) -> HttpResponse:
     if request.method == 'GET':
@@ -17,19 +19,29 @@ def shop_view(request: HttpRequest) -> HttpResponse:
 def products_view(request: HttpRequest) -> HttpResponse:
     if request.method == 'GET':
         id_cart = request.GET.get('id')
+        category_key = request.GET.get('category')
+        ordering_key = request.GET.get('ordering')
         if id_cart in DATABASE.keys():
             return JsonResponse(DATABASE.get(id_cart),
                                 json_dumps_params={
                                     "indent": 4,
                                     "ensure_ascii": False
                                 })
-        if not id_cart:
-            return JsonResponse(DATABASE,
-                                json_dumps_params={
-                                    "indent": 4,
-                                    "ensure_ascii": False})
-        if id_cart not in DATABASE.keys():
-            return HttpResponseNotFound('Такого товара нет в базе')
+        if ordering_key:
+            if request.GET.get('reverse') and request.GET.get('reverse').lower() == 'true':
+                data = filtering_category(DATABASE, category_key, ordering_key, True)
+            else:
+                data = filtering_category(DATABASE, category_key, ordering_key)
+        else:
+            data = filtering_category(DATABASE, category_key)
+        return JsonResponse(
+            data,
+            safe=False,
+            json_dumps_params={
+                "indent": 4,
+                "ensure_ascii": False
+            }
+        )
 
 
 def products_page_view(request: HttpRequest, page: [str, int]) -> HttpResponse:
