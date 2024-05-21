@@ -100,15 +100,6 @@ def remove_from_cart(id_product: str) -> bool:
             json.dump(cart, f)
     else:
         return False
-    # поэтому, чтобы загрузить данные из корзины, не нужно заново писать код.
-
-    # С переменной cart функции remove_from_cart ситуация аналогичная, что с cart функции add_to_cart
-
-    # TODO Проверьте, а существует ли такой товар в корзине, если нет, то возвращаем False.
-
-    # TODO Если существует товар, то удаляем ключ 'id_product' у cart['products'].
-
-    # TODO Не забываем записать обновленные данные cart в 'cart.json'
 
     return True
 
@@ -134,9 +125,6 @@ if __name__ == "__main__":
     # ]
     #
     # print(filtering_category(DATABASE, 'Фрукты', 'rating', True) == test)  # True
-
-    # Проверка работоспособности функций view_in_cart, add_to_cart, remove_from_cart
-    # Для совпадения выходных значений перед запуском скрипта удаляйте появляющийся файл 'cart.json' в папке
     print(view_in_cart())  # {'products': {}}
     print(add_to_cart('1'))  # True
     print(add_to_cart('0'))  # False
@@ -147,5 +135,3 @@ if __name__ == "__main__":
     print(remove_from_cart('1'))  # True
     print(view_in_cart())  # {'products': {'2': 1}}
     print(add_to_cart('1'))
-
-
