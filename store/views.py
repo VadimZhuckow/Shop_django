@@ -6,7 +6,8 @@ from django.http import HttpRequest, HttpResponse, JsonResponse
 
 from .models import DATABASE
 
-from logic.services import filtering_category
+from logic.services import filtering_category, view_in_cart, add_to_cart, remove_from_cart
+
 
 
 def shop_view(request: HttpRequest) -> HttpResponse:
@@ -63,3 +64,34 @@ def products_page_view(request: HttpRequest, page: [str, int]) -> HttpResponse:
                     return HttpResponse(page)
         if page not in DATABASE.values():
             return HttpResponseNotFound('Такого товара нет в базе')
+
+
+def cart_view(request):
+    if request.method == "GET":
+        data = view_in_cart()
+        return JsonResponse(data, json_dumps_params={'ensure_ascii': False,
+                                                     'indent': 4})
+
+
+def cart_add_view(request, id_product):
+    if request.method == "GET":
+        result = add_to_cart(id_product) # TODO Вызвать ответственную за это действие функцию и передать необходимые параметры
+        if result:
+            return JsonResponse({"answer": "Продукт успешно добавлен в корзину"},
+                                json_dumps_params={'ensure_ascii': False})
+
+        return JsonResponse({"answer": "Неудачное добавление в корзину"},
+                            status=404,
+                            json_dumps_params={'ensure_ascii': False})
+
+
+def cart_del_view(request, id_product):
+    if request.method == "GET":
+        result = remove_from_cart(id_product)# TODO Вызвать ответственную за это действие функцию и передать необходимые параметры
+        if result:
+            return JsonResponse({"answer": "Продукт успешно удалён из корзины"},
+                                json_dumps_params={'ensure_ascii': False})
+
+        return JsonResponse({"answer": "Неудачное удаление из корзины"},
+                            status=404,
+                            json_dumps_params={'ensure_ascii': False})
