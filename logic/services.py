@@ -79,7 +79,7 @@ def remove_from_cart(id_product: str) -> bool:
     :return: Возвращает True в случае успешного удаления, а False в случае неуспешного удаления(товара по id_product
     не существует).
     """
-    cart = view_in_cart()  # TODO Помните, что у вас есть уже реализация просмотра корзины,
+    cart = view_in_cart()
     if id_product in cart['products'].keys():
         del cart['products'][id_product]
         with open('cart.json', mode='w', encoding='utf-8') as f:
