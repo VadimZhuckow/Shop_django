@@ -10,11 +10,20 @@ from logic.services import filtering_category, view_in_cart, add_to_cart, remove
 
 
 def shop_view(request: HttpRequest) -> HttpResponse:
-    if request.method == 'GET':
+    if request.method == "GET":
+        # Обработка фильтрации из параметров запроса
+        category_key = request.GET.get("category")
+        if ordering_key := request.GET.get("ordering"):
+            if request.GET.get("reverse") in ('true', 'True'):
+                data = filtering_category(DATABASE, category_key, ordering_key,
+                                          True)
+            else:
+                data = filtering_category(DATABASE, category_key, ordering_key)
+        else:
+            data = filtering_category(DATABASE, category_key)
         return render(request, 'store/shop.html',
-                      context={
-                          "products": DATABASE.values()
-                      })
+                      context={"products": data,
+                               "category": category_key})
 
 
 def products_view(request: HttpRequest) -> HttpResponse:
@@ -96,8 +105,7 @@ def cart_add_view(request, id_product):
 
 def cart_del_view(request, id_product):
     if request.method == "GET":
-        result = remove_from_cart(
-            id_product)  # TODO Вызвать ответственную за это действие функцию и передать необходимые параметры
+        result = remove_from_cart(id_product)
         if result:
             return JsonResponse({"answer": "Продукт успешно удалён из корзины"},
                                 json_dumps_params={'ensure_ascii': False})
