@@ -24,3 +24,20 @@
 #         return result
 #
 #     return wrapper
+
+
+def log_decorator(func):
+    def wrapper(*args, **kwargs):
+        print(f"Вызов функции: {func.name} с аргументами {args} и {kwargs}")
+        result = func(*args, **kwargs)
+        print(f"Функция {func.name} завершилась с результатом {result}")
+        return result
+    return wrapper
+
+@log_decorator
+def add(x, y):
+    """Складывает два числа."""
+    return x + y
+
+# Вызов декорированной функции
+add(5, 3)
