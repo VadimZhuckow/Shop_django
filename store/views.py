@@ -4,6 +4,8 @@ from django.http import HttpRequest, HttpResponse, JsonResponse, HttpResponseNot
 
 from django.http import HttpRequest, HttpResponse, JsonResponse
 
+from django.shortcuts import redirect
+
 from .models import DATABASE
 
 from logic.services import filtering_category, view_in_cart, add_to_cart, remove_from_cart
@@ -116,8 +118,6 @@ def cart_del_view(request, id_product):
 
 
 def coupon_check_view(request, name_coupon):
-    # DATA_COUPON - база данных купонов: ключ - код купона (name_coupon); значение - словарь со значением скидки в процентах и
-    # значением действителен ли купон или нет
     DATA_COUPON = {
         "coupon": {
             "value": 10,
@@ -136,4 +136,40 @@ def coupon_check_view(request, name_coupon):
         return HttpResponseNotFound("Неверный купон")
 
 
+def delivery_estimate_view(request):
+    DATA_PRICE = {
+        "Россия": {
+            "Москва": {"price": 80},
+            "Санкт-Петербург": {"price": 80},
+            "Новгород": {"price": 20},
+            "fix_price": 100,
+        },
+    }
+    if request.method == "GET":
+        data = request.GET
+        country = data.get('country')
+        city = data.get('city')
+        if country in DATA_PRICE and city in DATA_PRICE[country]:
+            return JsonResponse({'price': DATA_PRICE[country][city]['price']})
+        if country in DATA_PRICE and city not in DATA_PRICE:
+            return JsonResponse({'price': DATA_PRICE[country]['fix_price']})
+        if country not in DATA_PRICE:
+            return HttpResponseNotFound("Неверные данные")
 
+
+def cart_buy_now_view(request, id_product):
+    if request.method == "GET":
+        result = add_to_cart(id_product)
+        if result:
+            return redirect("store:cart_view")
+
+        return HttpResponseNotFound("Неудачное добавление в корзину")
+
+
+def cart_remove_view(request, id_product):
+    if request.method == "GET":
+        result = remove_from_cart(id_product)
+        if result:
+            return redirect("store:cart_view")
+
+        return HttpResponseNotFound("Неудачное добавление в корзину")
