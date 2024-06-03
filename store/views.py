@@ -9,7 +9,8 @@ from django.shortcuts import redirect
 from .models import DATABASE
 
 from logic.services import filtering_category, view_in_cart, add_to_cart, remove_from_cart
-
+from django.contrib.auth import get_user
+from django.contrib.auth.decorators import login_required
 
 def shop_view(request: HttpRequest) -> HttpResponse:
     if request.method == "GET":
@@ -77,9 +78,11 @@ def products_page_view(request: HttpRequest, page: [str, int]) -> HttpResponse:
             return HttpResponseNotFound('Такого товара нет в базе')
 
 
+@login_required(login_url='login:login_view')
 def cart_view(request):
     if request.method == "GET":
-        data = view_in_cart()
+        current_user = get_user(request).username
+        data = view_in_cart(request)[current_user]
         json_param = request.GET.get('format')
         if json_param and json_param.lower() == "json":
             return JsonResponse(data, json_dumps_params={'ensure_ascii': False,
@@ -92,10 +95,10 @@ def cart_view(request):
             products.append(product)
         return render(request, "store/cart.html", context={"products": products})
 
-
+@login_required(login_url='login:login_view')
 def cart_add_view(request, id_product):
     if request.method == "GET":
-        result = add_to_cart(id_product)
+        result = add_to_cart(request, id_product)
         if result:
             return JsonResponse({"answer": "Продукт успешно добавлен в корзину"},
                                 json_dumps_params={'ensure_ascii': False})
@@ -107,7 +110,7 @@ def cart_add_view(request, id_product):
 
 def cart_del_view(request, id_product):
     if request.method == "GET":
-        result = remove_from_cart(id_product)
+        result = remove_from_cart(request, id_product)
         if result:
             return JsonResponse({"answer": "Продукт успешно удалён из корзины"},
                                 json_dumps_params={'ensure_ascii': False})
@@ -156,10 +159,10 @@ def delivery_estimate_view(request):
         if country not in DATA_PRICE:
             return HttpResponseNotFound("Неверные данные")
 
-
+@login_required(login_url='login:login_view')
 def cart_buy_now_view(request, id_product):
     if request.method == "GET":
-        result = add_to_cart(id_product)
+        result = add_to_cart(request, id_product)
         if result:
             return redirect("store:cart_view")
 
@@ -168,7 +171,7 @@ def cart_buy_now_view(request, id_product):
 
 def cart_remove_view(request, id_product):
     if request.method == "GET":
-        result = remove_from_cart(id_product)
+        result = remove_from_cart(request, id_product)
         if result:
             return redirect("store:cart_view")
 

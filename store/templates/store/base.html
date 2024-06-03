@@ -73,7 +73,12 @@
 	          <li class="nav-item"><a href="{% url 'store:shop_view'%}" class="nav-link">Магазин</a>
 			  <li class="nav-item"><a href="wishlist.html" class="nav-link">Избранное</a>
 			  <li class="nav-item"><a href="{% url 'store:cart_view'%}" class="nav-link">Корзина</a>
-			  <li class="nav-item"><a href="login.html" class="nav-link">Войти в аккаунт</a>
+			  {% if user.is_authenticated %}
+                <li class="nav-item"><a href="{% url 'login:logout_view'%}" class="nav-link">Выйти из аккаунта</a>
+                <li class="nav-item"><a class="nav-link">Привет {{user.username}}!</a>
+                {% else %}
+                <li class="nav-item"><a href="{% url 'login:login_view'%}" class="nav-link">Войти в аккаунт</a>
+                {% endif %}
 	        </ul>
 	      </div>
 	    </div>

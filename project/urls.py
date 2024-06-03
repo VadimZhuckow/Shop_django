@@ -41,4 +41,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('random/', random_view),
     path('datatime/', date),
+    path('login/', include('app_login.urls')),
 ]
