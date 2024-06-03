@@ -176,3 +176,5 @@ def cart_remove_view(request, id_product):
             return redirect("store:cart_view")
 
         return HttpResponseNotFound("Неудачное добавление в корзину")
+
+
