@@ -37,9 +37,11 @@ def random_view(request: HttpRequest):
 urlpatterns = [
 
     path('', include('store.urls')),
+    path('', include('wishlist.urls')),
     path('', include('weather.urls')),
     path('admin/', admin.site.urls),
     path('random/', random_view),
     path('datatime/', date),
     path('login/', include('app_login.urls')),
+
 ]

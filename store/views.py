@@ -12,6 +12,7 @@ from logic.services import filtering_category, view_in_cart, add_to_cart, remove
 from django.contrib.auth import get_user
 from django.contrib.auth.decorators import login_required
 
+
 def shop_view(request: HttpRequest) -> HttpResponse:
     if request.method == "GET":
         # Обработка фильтрации из параметров запроса
@@ -95,6 +96,7 @@ def cart_view(request):
             products.append(product)
         return render(request, "store/cart.html", context={"products": products})
 
+
 @login_required(login_url='login:login_view')
 def cart_add_view(request, id_product):
     if request.method == "GET":
@@ -159,6 +161,7 @@ def delivery_estimate_view(request):
         if country not in DATA_PRICE:
             return HttpResponseNotFound("Неверные данные")
 
+
 @login_required(login_url='login:login_view')
 def cart_buy_now_view(request, id_product):
     if request.method == "GET":
@@ -176,5 +179,3 @@ def cart_remove_view(request, id_product):
             return redirect("store:cart_view")
 
         return HttpResponseNotFound("Неудачное добавление в корзину")
-
-
