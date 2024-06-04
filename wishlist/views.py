@@ -56,7 +56,7 @@ def wishlist_del_json(request, id_product: str):
                             json_dumps_params={'ensure_ascii': False})
 
 
-@login_required(login_url='login:login_view')
+
 def wishlist_json(request):
     """
     Просмотр всех продуктов в избранном для пользователя и возвращение этого в JSON
@@ -72,7 +72,7 @@ def wishlist_json(request):
                             status=404,
                             json_dumps_params={'ensure_ascii': False})
 
-@login_required(login_url='login:login_view')
+
 def wishlist_remove_view(request, id_product):
     if request.method == "GET":
         result = remove_from_wishlist(request, id_product)
