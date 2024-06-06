@@ -1,4 +1,3 @@
-
 from django.http import JsonResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user
@@ -33,12 +32,13 @@ def wishlist_add_json(request, id_product: str):
     if request.method == "GET":
         result = add_to_wishlist(request, id_product)
         if result:
-            return JsonResponse({"answer": "Продукт успешно добавлен в корзину"},
+            return JsonResponse({"answer": "Продукт успешно добавлен в избранное"},
                                 json_dumps_params={'ensure_ascii': False})
 
-        return JsonResponse({"answer": "Неудачное добавление в корзину"},
+        return JsonResponse({"answer": "Неудачное добавление в избранное"},
                             status=404,
                             json_dumps_params={'ensure_ascii': False})
+
 
 @login_required(login_url='login:login_view')
 def wishlist_del_json(request, id_product: str):
@@ -54,7 +54,6 @@ def wishlist_del_json(request, id_product: str):
         return JsonResponse({"answer": "Неудачное удаление"},
                             status=404,
                             json_dumps_params={'ensure_ascii': False})
-
 
 
 def wishlist_json(request):
@@ -79,4 +78,4 @@ def wishlist_remove_view(request, id_product):
         if result:
             return redirect("wishlist:wishlist_view")
 
-        return HttpResponseNotFound("Неудачное добавление в корзину")
+        return HttpResponseNotFound("Неудачное добавление в избранное")
